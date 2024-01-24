@@ -6,5 +6,7 @@ authRoute.post("/signup" , signupController)
 authRoute.post("/login" , loginController)
 authRoute.post("/logout" , logoutController)
 
+export { authRoute}
 
-export {authRoute}
+
+

@@ -1,13 +1,17 @@
 import express from "express"
 import dotenv from "dotenv"
 import { authRoute } from "./routers/authRoute.js"
+import { dbConnection } from "./utilities/config.js"
+
+
 const app = express()
 dotenv.config()
+
 app.use(express.json())
-
-
 app.use('/auth' , authRoute)
-// app.use('/jobs' , jobRoute)
+
+
+dbConnection()
 
 
 app.listen(process.env.PORT , () => {
