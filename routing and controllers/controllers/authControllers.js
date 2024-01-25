@@ -97,12 +97,54 @@ const loginController = async (req, res) => {
     }
   }
 };
-const logoutController = (req, res) => {
-  res.status(200);
-  res.json({
-    status: true,
-    message: "logout Sucessfully!",
-  });
+
+// get data the user
+const getDataController = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  const founduser = await UserSchema.findOne({ email: email });
+
+  if (founduser) {
+    res.status(200);
+    res.json({
+      status: true,
+      message: "user found!",
+      data: founduser,
+    });
+
+    return founduser;
+
+  } else {
+    res.status(400);
+    res.json({
+      status: false,
+      message: "user not found!",
+    });
+  }
 };
 
-export { signupController, loginController, logoutController };
+// update data
+const updateDataController = async (req, res , getDataController) => {
+    if ( getDataController) {
+      console.log(await getDataController.email);
+      res.status(200);
+      res.json({
+        
+        status: true,
+        message: "Data updated successfully!",
+      })
+    }
+
+};
+
+// const logoutController = (req, res) => {
+//   res.status(200);
+//   res.json({
+//     status: true,
+//     message: "logout Sucessfully!",
+//   });
+// };
+
+
+export { signupController, loginController, getDataController ,updateDataController };
+ 
