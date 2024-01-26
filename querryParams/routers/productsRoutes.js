@@ -1,8 +1,22 @@
 import express from "express";
-import { addProduct } from "../controllers/productsControllers.js";
+import { addProductController, getAllProductsController } from "../controllers/productsControllers.js";
+
 const productRoute = express.Router();
 
-// /api/v1/product/addProduct
-productRoute.post("/", addProduct);
 
-export { productRoute };
+
+// get all products api
+// get api
+// URI ==>>> /api/v1/products
+productRoute.get("/", getAllProductsController);
+
+
+// add product api
+// post api
+// URI ==>>> /api/v1/products/addProduct
+productRoute.post("/addProduct", addProductController);
+
+
+
+
+export default productRoute 

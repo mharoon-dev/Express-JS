@@ -13,7 +13,11 @@ const ProductSchemaCheck = new mongoose.Schema({
         type: Number,
         required: true
     },
-    category: {
+    brand: {
+        type: String,
+        required: true
+    },
+    postedBy: {
         type: String,
         required: true
     },
