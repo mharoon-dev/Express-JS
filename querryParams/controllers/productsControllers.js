@@ -1,5 +1,6 @@
 import { ProductSchema } from "../models/products.js";
 
+// add product
 //  /api/v1/products/addProduct
 export const addProductController = (req, res) => {
   try {
@@ -38,6 +39,7 @@ export const addProductController = (req, res) => {
   }
 };
 
+// get all products
 /// /api/v1/products/
 export const getAllProductsController = async (req, res) => {
   const { name, price, rating, brand, postedBy } = req.query;
@@ -140,6 +142,96 @@ export const getAllProductsController = async (req, res) => {
       status: true,
       message: `here is the all products.`,
       data: products,
+    });
+  }
+};
+
+// get single product
+// /api/v1/products/productID
+export const getSingleProductController = async (req, res) => {
+  const { productId } = req.params;
+  console.log(await productId);
+
+  try {
+    const product = await ProductSchema.findById(productId);
+
+    res.status(200);
+    res.json({
+      status: true,
+      message: "here is your single product.",
+      data: product
+    });
+  } catch (error) {
+    res.json({
+      status: false,
+      message: "Internal server Error.",
+      data: error.message,
+    });
+  }
+};
+
+
+// delete product
+// /api/v1/products/productID
+export const deleteProductController = async (req, res) => {
+  const { productId } = req.params;
+  console.log(await productId);
+
+  try {
+    const product = await ProductSchema.findByIdAndDelete(productId);
+
+    res.status(200);
+    res.json({
+      status: true,
+      message: "your prdouct has been deleted.",
+      data: product
+    });
+  } catch (error) {
+    res.json({
+      status: false,
+      message: "Internal server Error.",
+      data: error.message,
+    });
+  }
+};
+
+// update product
+// /api/v1/products/productID
+export const updateProductController = async (req, res) => {
+  const { productId } = req.params;
+  console.log(await productId);
+  const { name, price, rating, brand, postedBy } = req.body;
+
+  try {
+    if (name || price || rating || brand || postedBy) {
+      const updateProduct = await ProductSchema.findByIdAndUpdate(productId, {
+        name,
+        price,
+        rating,
+        brand,
+        postedBy
+      });
+
+      const getupdateProduct = await ProductSchema.findById(productId);
+      res.status(200);
+      res.json({
+        status: true,
+        message: "your prdouct has been updated.",
+        data: getupdateProduct
+      });
+      
+    } else {
+      res.status(400);
+      res.json({
+        status: false,
+        message: "your don't updated any single post.",
+      })
+    }
+  } catch (error) {
+    res.json({
+      status: false,
+      message: "Internal server Error.",
+      data: error.message,
     });
   }
 };
